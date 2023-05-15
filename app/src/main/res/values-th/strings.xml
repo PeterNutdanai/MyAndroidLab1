@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nutdanai\'s Android Labs</string>
+    <string name="hello_message">สวัสดี</string>
+    <string name="button_message">ฉันคือปุ่ม</string>
+</resources>
