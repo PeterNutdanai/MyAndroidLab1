@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_marginTop="27dp"
+    android:layout_marginBottom="27dp"
+    android:layout_marginLeft="48dp"
+    android:layout_marginRight="48dp"
+    >
 
     <Button
         android:id="@+id/button1"
@@ -13,6 +18,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="Button"
+        android:nextFocusLeft="@id/button3"
+        android:nextFocusRight="@id/button2"
+        android:nextFocusDown="@id/spin_switch"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="Button"
+        android:nextFocusLeft="@id/button1"
+        android:nextFocusDown="@id/spin_switch"
+        android:nextFocusRight="@id/button3"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button1"
@@ -35,6 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="Button"
+        android:nextFocusLeft="@id/button2"
+        android:nextFocusRight="@id/button1"
+        android:nextFocusDown="@id/spin_switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button2"
