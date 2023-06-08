@@ -73,15 +73,11 @@ public class SecondActivity extends AppCompatActivity {
 
                             // Get the captured image from the result
                             Intent data = result.getData();
-                            if (data != null) {
                                 Bitmap thumbnail = data.getParcelableExtra("data");
-                                if (thumbnail != null) {
                                     // Set the captured image to the ImageView
                                     profileImage.setImageBitmap(thumbnail);
                                 }
                             }
-                        }
-                    }
                 });
         // Change Picture
         binding.changePicture.setOnClickListener( clk ->{
