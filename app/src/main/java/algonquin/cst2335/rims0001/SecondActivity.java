@@ -79,11 +79,7 @@ public class SecondActivity extends AppCompatActivity {
                                 }
                             }
                 });
-        // Change Picture
-        binding.changePicture.setOnClickListener( clk ->{
             // Launch the camera activity
             cameraResult.launch(cameraIntent);
-        });
-
     }
 }
