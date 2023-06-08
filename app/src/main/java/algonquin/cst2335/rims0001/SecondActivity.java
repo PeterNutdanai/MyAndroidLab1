@@ -48,9 +48,12 @@ public class SecondActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.imageView);
 
         // Start dialing a phone number
-        Intent call = new Intent(Intent.ACTION_DIAL);
-        call.setData(Uri.parse("tel:" + "3435585543"));
-        startActivity(call);
+        binding.callNumber.setOnClickListener( clk -> {
+            String phoneNumber = "3435585543";
+            Intent call = new Intent(Intent.ACTION_DIAL);
+            call.setData(Uri.parse("tel:" + phoneNumber));
+            startActivity(call);
+        });
 
         // Launch the camera intent
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -80,8 +83,11 @@ public class SecondActivity extends AppCompatActivity {
                         }
                     }
                 });
+        // Change Picture
+        binding.changePicture.setOnClickListener( clk ->{
+            // Launch the camera activity
+            cameraResult.launch(cameraIntent);
+        });
 
-        // Launch the camera activity
-        cameraResult.launch(cameraIntent);
     }
 }

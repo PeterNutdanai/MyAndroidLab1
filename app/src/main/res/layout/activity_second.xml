@@ -34,7 +34,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/callNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CALL NUMBER"
@@ -60,7 +60,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/changePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CHANGE PICTURE"
