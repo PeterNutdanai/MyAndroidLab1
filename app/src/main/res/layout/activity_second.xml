@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:text="CHANGE PICTURE"
         tools:layout_editor_absoluteX="219dp"
-        tools:layout_editor_absoluteY="132dp" />
+        tools:layout_editor_absoluteY="132dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
