@@ -34,56 +34,52 @@ public class MainActivity extends AppCompatActivity {
 
         Log.w(TAG, "In onCreate() - Loading Widgets");
 
-        Log.d(TAG, "Message");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.loginButton.setOnClickListener( (clk) -> Log.e(TAG, "You clicked the button"));
+        binding.loginButton.setOnClickListener(clk -> {
+            Log.d(TAG, "You clicked the button");
 
             // Code to be executed when the login button is clicked
             Intent nextPage = new Intent(MainActivity.this, SecondActivity.class);
 
             String whatIsTyped = binding.emailText.getText().toString();
 
-            nextPage.putExtra("Email",whatIsTyped);
-            nextPage.putExtra("AGE",26);
-            nextPage.putExtra("DAY","Sunday");
+            nextPage.putExtra("Email", whatIsTyped);
+            nextPage.putExtra("AGE", 26);
+            nextPage.putExtra("DAY", "Sunday");
 
             startActivity(nextPage);
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.w(TAG,"In onCreate() - Loading Widgets");
-
+        Log.w(TAG, "In onStart() - Loading Widgets");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.w(TAG,"In onCreate() - Loading Widgets");
-
+        Log.w(TAG, "In onResume() - Loading Widgets");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w(TAG,"In onCreate() - Loading Widgets");
-
+        Log.w(TAG, "In onPause() - Loading Widgets");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.w(TAG,"In onCreate() - Loading Widgets");
-
+        Log.w(TAG, "In onStop() - Loading Widgets");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.w(TAG,"In onCreate() - Loading Widgets");
-
+        Log.w(TAG, "In onDestroy() - Loading Widgets");
     }
 }

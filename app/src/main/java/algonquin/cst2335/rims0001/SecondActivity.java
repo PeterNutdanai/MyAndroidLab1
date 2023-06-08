@@ -26,31 +26,33 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
-
         binding = ActivitySecondBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         Intent fromPrevious = getIntent();
 
-        // null if EMAIL is not found
-        String EMAIL = fromPrevious.getStringExtra("Email");
-        String day = fromPrevious.getStringExtra("DAY"); // Sunday
+        // Get values from the intent extras
+        String email = fromPrevious.getStringExtra("Email");
+        String day = fromPrevious.getStringExtra("DAY");
+        int age = fromPrevious.getIntExtra("AGE", 0);
 
-        int age = fromPrevious.getIntExtra("AGE", 0); // age = 26
-        int something = fromPrevious.getIntExtra("SOMETHING", 0);
+        // Set the text in the TextView
+        binding.textView.setText("Welcome back " + email + " and " + day + " and " + age);
 
-        binding.textView.setText("Welcome back " + EMAIL + " and " + day + " and " + age);
-        binding.goBackButton.setOnClickListener((clk) -> {
+        // Set a click listener for the "Go Back" button
+        binding.goBackButton.setOnClickListener(clk -> {
             finish();
         });
 
-        profileImage = findViewById(R.id.imageView); // Initialize profileImage ImageView
+        // Find the ImageView by its ID
+        profileImage = findViewById(R.id.imageView);
 
+        // Start dialing a phone number
         Intent call = new Intent(Intent.ACTION_DIAL);
-        call.setData(Uri.parse("tel: " + "3435585543"));
+        call.setData(Uri.parse("tel:" + "3435585543"));
         startActivity(call);
 
+        // Launch the camera intent
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         ActivityResultLauncher<Intent> cameraResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -58,17 +60,28 @@ public class SecondActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+                            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                                // Only start the camera if permission is granted
                                 startActivity(cameraIntent);
-                            else
+                            } else {
+                                // Request camera permission
                                 requestPermissions(new String[]{Manifest.permission.CAMERA}, 20);
+                            }
 
+                            // Get the captured image from the result
                             Intent data = result.getData();
-                            Bitmap thumbnail = data.getParcelableExtra("data");
-                            profileImage.setImageBitmap(thumbnail);
+                            if (data != null) {
+                                Bitmap thumbnail = data.getParcelableExtra("data");
+                                if (thumbnail != null) {
+                                    // Set the captured image to the ImageView
+                                    profileImage.setImageBitmap(thumbnail);
+                                }
+                            }
                         }
                     }
                 });
+
+        // Launch the camera activity
         cameraResult.launch(cameraIntent);
     }
 }
