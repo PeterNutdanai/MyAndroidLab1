@@ -7,7 +7,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,6 +19,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.io.File;
 
 import algonquin.cst2335.rims0001.databinding.ActivityMainBinding;
 
@@ -36,6 +40,22 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Where can you save files:
+        File myDir = getFilesDir();
+        String path = myDir.getAbsolutePath();
+
+        SharedPreferences prefs = getSharedPreferences("MyFile", Context.MODE_PRIVATE);
+
+        // get an Editor
+        SharedPreferences.Editor edit = prefs.edit();
+
+        edit.putInt("Age",27);
+        edit.putString("NAME","Peter");
+
+        // save to disk
+        edit.commit();
+
 
         binding.loginButton.setOnClickListener(clk -> {
             Log.d(TAG, "You clicked the button");
