@@ -3,6 +3,9 @@ plugins {
 }
 
 android {
+    dataBinding {
+        enabled = true
+    }
     namespace 'algonquin.cst2335.rims0001'
     compileSdk 33
 
