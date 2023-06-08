@@ -9,29 +9,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
 
-    private ActivityMainBinding binding;
+    protected ActivityMainBinding binding;
+    private ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.w("MainActivity", "In onCreate() - Loading Widgets");
+
+        Log.w(TAG, "In onCreate() - Loading Widgets");
 
         Log.d(TAG, "Message");
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
 
         binding.loginButton.setOnClickListener( clk -> {
             Log.d(TAG, "You clicked the button");
@@ -65,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(cameraIntent);
                             else
                                 requestPermissions(new String[] {Manifest.permission.CAMERA}, 20);
+
+                            Intent data = result.getData();
+                            Bitmap thumbnail = data.getParcelableExtra("data");
+                            profileImage.setImageBitmap( thumbnail );
                         }
                     }
                 });
