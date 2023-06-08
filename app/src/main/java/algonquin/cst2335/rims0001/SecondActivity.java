@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
-import algonquin.cst2335.rims0001.databinding.ActivityMainBinding;
 import algonquin.cst2335.rims0001.databinding.ActivitySecondBinding;
 
 public class SecondActivity extends AppCompatActivity {
@@ -38,39 +37,38 @@ public class SecondActivity extends AppCompatActivity {
         String EMAIL = fromPrevious.getStringExtra("Email");
         String day = fromPrevious.getStringExtra("DAY"); // Sunday
 
-        int age = fromPrevious.getIntExtra("AGE",0); // age = 26
-        int something = fromPrevious.getIntExtra("SOMETHING",0);
+        int age = fromPrevious.getIntExtra("AGE", 0); // age = 26
+        int something = fromPrevious.getIntExtra("SOMETHING", 0);
 
-        binding.textView3.setText("Welcome back " + EMAIL + " and " + day + " and " + age);
-        binding.goBackButton.setOnClickListener ( (clk) -> {
-
+        binding.textView.setText("Welcome back " + EMAIL + " and " + day + " and " + age);
+        binding.goBackButton.setOnClickListener((clk) -> {
             finish();
         });
 
+        profileImage = findViewById(R.id.imageView); // Initialize profileImage ImageView
+
         Intent call = new Intent(Intent.ACTION_DIAL);
         call.setData(Uri.parse("tel: " + "3435585543"));
-
         startActivity(call);
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        ActivityResultLauncher<Intent> camaraResult = registerForActivityResult(
+        ActivityResultLauncher<Intent> cameraResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+                            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
                                 startActivity(cameraIntent);
                             else
-                                requestPermissions(new String[] {Manifest.permission.CAMERA}, 20);
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, 20);
 
                             Intent data = result.getData();
                             Bitmap thumbnail = data.getParcelableExtra("data");
-                            profileImage.setImageBitmap( thumbnail );
+                            profileImage.setImageBitmap(thumbnail);
                         }
                     }
                 });
-        camaraResult.launch(cameraIntent);
-
+        cameraResult.launch(cameraIntent);
     }
 }

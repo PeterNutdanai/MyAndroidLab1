@@ -38,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.loginButton.setOnClickListener( clk -> {
-            Log.d(TAG, "You clicked the button");
-        });
+        binding.loginButton.setOnClickListener( (clk) -> Log.e(TAG, "You clicked the button"));
 
             // Code to be executed when the login button is clicked
             Intent nextPage = new Intent(MainActivity.this, SecondActivity.class);
