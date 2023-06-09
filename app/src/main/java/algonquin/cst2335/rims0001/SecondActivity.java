@@ -49,7 +49,7 @@ public class SecondActivity extends AppCompatActivity {
 
         // Start dialing a phone number
         binding.callNumber.setOnClickListener( clk -> {
-            String phoneNumber = "3435585543";
+            String phoneNumber = binding.callNumber.getText().toString();
             Intent call = new Intent(Intent.ACTION_DIAL);
             call.setData(Uri.parse("tel:" + phoneNumber));
             startActivity(call);
