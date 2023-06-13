@@ -26,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
             String password = et.getText().toString();
             boolean isComplex = checkPasswordComplexity(password);
             if (isComplex) {
-                Toast.makeText(MainActivity.this, "Password is complex.", Toast.LENGTH_SHORT).show();
+
             } else {
                 Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 
