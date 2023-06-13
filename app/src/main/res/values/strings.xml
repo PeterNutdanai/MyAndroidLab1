@@ -2,4 +2,6 @@
     <string name="app_name">Nutdanai\'s Android Labs</string>
     <string name="hello_message">Hello World!</string>
     <string name="button_message">I\'m a button</string>
+    <string name="they_are_missing_an_upper_case_letter">They are missing an upper case letter</string>
+    <string name="lowercase">" They are missing a lower case letter"</string>
 </resources>
