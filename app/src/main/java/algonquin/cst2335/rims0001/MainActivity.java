@@ -1,34 +1,51 @@
 package algonquin.cst2335.rims0001;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+/**
+ *
+ * @author Nutdanai Rimsakul
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
      *                           recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
+
+    /** This holds the text at the centre of the screen*/
+    TextView tv = null;
+    /** This holds the edit text at the centre of the screen*/
+
+    EditText et = null;
+    /** This holds the button at the centre of the screen*/
+
+    Button btn = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tv = findViewById(R.id.textView);
-        EditText et = findViewById(R.id.editText);
-        Button btn = findViewById(R.id.button);
+        tv = findViewById(R.id.textView);
+        et = findViewById(R.id.editText);
+        btn = findViewById(R.id.button);
 
         btn.setOnClickListener(clk -> {
             String password = et.getText().toString();
             boolean isComplex = checkPasswordComplexity(password);
             if (isComplex) {
-
+                tv.setText("Your password is complex enough.");
             } else {
-                Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
+                tv.setText("How dare you !?!? You shall not pass!!!");
             }
         });
 
