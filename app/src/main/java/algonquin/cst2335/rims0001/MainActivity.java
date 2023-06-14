@@ -7,28 +7,44 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ *
+ * @author Nutdanai Rimsakul
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
      *                           recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
+
+    /** This holds the text at the centre of the screen*/
+    TextView tv = null;
+    /** This holds the edit text at the centre of the screen*/
+
+    EditText et = null;
+    /** This holds the button at the centre of the screen*/
+
+    Button btn = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tv = findViewById(R.id.textView);
-        EditText et = findViewById(R.id.editText);
-        Button btn = findViewById(R.id.button);
+        tv = findViewById(R.id.textView);
+        et = findViewById(R.id.editText);
+        btn = findViewById(R.id.button);
 
         btn.setOnClickListener(clk -> {
             String password = et.getText().toString();
             boolean isComplex = checkPasswordComplexity(password);
             if (isComplex) {
-
+                tv.setText("Your password meets the requirements");
             } else {
-                Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
+                tv.setText("How are you !?!? You shall not pass!!!");
             }
         });
 
