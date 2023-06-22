@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             String password = et.getText().toString();
             boolean isComplex = checkPasswordComplexity(password);
             if (isComplex) {
-                tv.setText("Your password meets the requirements");
+                tv.setText("Your password is complex enough.");
             } else {
                 //Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
                 tv.setText("How dare you !?!? You shall not pass!!!");
