@@ -1,11 +1,12 @@
 package algonquin.cst2335.rims0001;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  *
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 tv.setText("Your password meets the requirements");
             } else {
                 //Toast.makeText(MainActivity.this, "Password does not meet complexity requirements.", Toast.LENGTH_SHORT).show();
-                tv.setText("How are you !?!? You shall not pass!!!");
+                tv.setText("How dare you !?!? You shall not pass!!!");
             }
         });
 
