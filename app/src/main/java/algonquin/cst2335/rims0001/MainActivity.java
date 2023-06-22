@@ -16,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     /**
      * @param savedInstanceState If the activity is being re-initialized after
-     *                           previously being shut down then this Bundle contains the data it most
-     *                           recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     * previously being shut down then this Bundle contains the data it most
+     * recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
 
     /** This holds the text at the centre of the screen*/
@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     /**
-     *
-     * @param c
-     * @return
+     *Checks if a given character is a special character.
+     * @param c The character to check.
+     * @return true if the character is a special character, false otherwise.
      */
     boolean isSpecialCharacter ( char c)
 
