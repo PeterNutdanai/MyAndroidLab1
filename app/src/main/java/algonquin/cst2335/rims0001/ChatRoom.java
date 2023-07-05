@@ -13,7 +13,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_chat_room);
+        setContentView(binding.getRoot());
     }
 
 
