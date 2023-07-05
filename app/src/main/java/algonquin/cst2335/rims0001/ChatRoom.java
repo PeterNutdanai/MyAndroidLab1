@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,12 +17,15 @@ import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
 
 
 
+
 public class ChatRoom extends AppCompatActivity {
 
     ActivityChatRoomBinding binding;
-    SentMessageBinding messageBinding;
+
 
     ArrayList<String> messages = new ArrayList<>();
+    private RecyclerView.Adapter myAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +35,12 @@ public class ChatRoom extends AppCompatActivity {
 
         binding.send.setOnClickListener(click -> {
             messages.add(binding.textInput.getText().toString());
+            myAdapter.notifyItemInserted(messages.size()-1);
 
             binding.textInput.setText("");
         });
 
-        binding.recycleView.setAdapter(new RecyclerView.Adapter<MyRowHolder>() {
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
                                            @NonNull
                                            @Override
                                            public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,6 +68,7 @@ public class ChatRoom extends AppCompatActivity {
                                            }
                                        }
         );
+        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
