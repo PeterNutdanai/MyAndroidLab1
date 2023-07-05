@@ -38,7 +38,19 @@ public class ChatRoom extends AppCompatActivity {
             myAdapter.notifyItemInserted(messages.size()-1);
 
             binding.textInput.setText("");
+
+            int position = 0;
+            if (position >= 0 && position < messages.size()) {
+                messages.remove(position);
+                myAdapter.notifyItemRemoved(position);
+            }
+
+            myAdapter.notifyDataSetChanged();
+
+
         });
+
+
 
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
                                            @NonNull
