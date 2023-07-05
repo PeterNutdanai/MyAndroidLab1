@@ -3,6 +3,7 @@ package algonquin.cst2335.rims0001;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import algonquin.cst2335.rims0001.databinding.ActivityChatRoomBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
@@ -12,7 +13,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_chat_room2);
+        setContentView(R.layout.activity_chat_room);
     }
 
 

@@ -1,10 +1,15 @@
 plugins {
     id 'com.android.application'
+
 }
 
 android {
     namespace 'algonquin.cst2335.rims0001'
     compileSdk 33
+
+    dataBinding{
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "algonquin.cst2335.rims0001"
