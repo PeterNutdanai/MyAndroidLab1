@@ -7,8 +7,8 @@ android {
     namespace 'algonquin.cst2335.rims0001'
     compileSdk 33
 
-    dataBinding{
-        enabled = true
+    buildFeatures{
+        viewBinding true
     }
     
 
