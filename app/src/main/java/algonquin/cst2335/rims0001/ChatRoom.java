@@ -46,8 +46,6 @@ public class ChatRoom extends AppCompatActivity {
             }
 
             myAdapter.notifyDataSetChanged();
-
-
         });
 
 
@@ -82,6 +80,7 @@ public class ChatRoom extends AppCompatActivity {
         );
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
+
 
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;

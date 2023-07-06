@@ -10,9 +10,7 @@ android {
     dataBinding{
         enabled = true
     }
-    dataBinding{
-        enabled = true
-    }
+    
 
     defaultConfig {
         applicationId "algonquin.cst2335.rims0001"
