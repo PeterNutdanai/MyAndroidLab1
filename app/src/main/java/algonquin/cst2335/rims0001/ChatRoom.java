@@ -102,6 +102,30 @@ public class ChatRoom extends AppCompatActivity {
         super.onResume();
     }
 
+    public class ChatMessage{
+        String message;
+        String timeSent;
+        boolean isSentButton;
+
+        ChatMessage (String m, String t, boolean sent)
+        {
+            this.message = m;
+            this.timeSent = t;
+            this.isSentButton = sent;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getTimeSent() {
+            return timeSent;
+        }
+
+        public boolean isSentButton() {
+            return isSentButton;
+        }
+    }
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;
         TextView timeText;
