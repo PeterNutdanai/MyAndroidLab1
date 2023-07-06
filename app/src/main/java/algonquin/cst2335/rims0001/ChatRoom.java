@@ -1,18 +1,19 @@
 package algonquin.cst2335.rims0001;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import algonquin.cst2335.rims0001.data.ChatRoomViewModel;
 import algonquin.cst2335.rims0001.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
 
@@ -24,25 +25,34 @@ public class ChatRoom extends AppCompatActivity {
     ActivityChatRoomBinding binding;
 
 
-    ArrayList<String> messages = new ArrayList<>();
+    ChatRoomViewModel chatModel ;
     private RecyclerView.Adapter myAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+        ArrayList<String> messages = chatModel.messages.getValue();
+
+        if(messages ==null)
+        {
+            chatModel.messages.postValue(messages = new ArrayList<String>());
+        }
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ArrayList<String> finalMessages = messages;
         binding.send.setOnClickListener(click -> {
-            messages.add(binding.textInput.getText().toString());
-            myAdapter.notifyItemInserted(messages.size()-1);
+            finalMessages.add(binding.textInput.getText().toString());
+            myAdapter.notifyItemInserted(finalMessages.size()-1);
 
             binding.textInput.setText("");
 
             int position = 0;
-            if (position >= 0 && position < messages.size()) {
-                messages.remove(position);
+            if (position >= 0 && position < finalMessages.size()) {
+                finalMessages.remove(position);
                 myAdapter.notifyItemRemoved(position);
             }
 
