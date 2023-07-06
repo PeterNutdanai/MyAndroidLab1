@@ -72,43 +72,39 @@ public class ChatRoom extends AppCompatActivity {
 
 
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
-                                           @NonNull
-                                           @Override
-                                           public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-                                           LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                                           if (viewType == 0) {
-                                           SentMessageBinding messageBinding = SentMessageBinding.inflate(inflater, parent, false);
-                                           return new MyRowHolder(messageBinding.getRoot());
-                                            } else {
-                                           ReceiveMessageBinding messageBinding = ReceiveMessageBinding.inflate(inflater, parent, false);
-                                           return new MyRowHolder(messageBinding.getRoot());
-                                            }
-                                           }
+            @NonNull
+            @Override
+            public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                if (viewType == 0) {
+                    SentMessageBinding messageBinding = SentMessageBinding.inflate(inflater, parent, false);
+                    return new MyRowHolder(messageBinding.getRoot());
+                } else {
+                    ReceiveMessageBinding messageBinding = ReceiveMessageBinding.inflate(inflater, parent, false);
+                    return new MyRowHolder(messageBinding.getRoot());
+                }
+            }
 
-                                           @Override
-                                           public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
-                                               holder.messageText.setText("Howdy, partner.");
-                                               holder.timeText.setText("05:00 AM");
-                                               ChatMessage obj = messages.get(position);
-                                               holder.messageText.setText((CharSequence) obj);
+            @Override
+            public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
+                holder.messageText.setText("Howdy, partner.");
+                holder.timeText.setText("05:00 AM");
+                ChatMessage obj = messages.get(position);
+                holder.messageText.setText((CharSequence) obj);
+            }
+            @Override
+            public int getItemCount() {
+                return messages.size();
+            }
 
-                                           }
-
-                                           @Override
-                                           public int getItemCount() {
-
-                                               return messages.size();
-                                           }
-
-                                           public int getItemViewType(int position){
-
-                                               if (messages.get(position).isSentButton()) {
-                                                   return 0;
-                                               } else {
-                                                   return 1;
-                                               }
-                                           }
-                                       }
+            public int getItemViewType(int position){
+                if (messages.get(position).isSentButton()) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+          }
         );
 
         binding.receive.setOnClickListener(click -> {
