@@ -1,6 +1,7 @@
 package algonquin.cst2335.rims0001;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -81,6 +82,15 @@ public class ChatRoom extends AppCompatActivity {
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;
