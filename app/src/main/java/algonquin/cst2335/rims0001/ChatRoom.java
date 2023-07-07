@@ -36,7 +36,6 @@ public class ChatRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
-
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -45,7 +44,6 @@ public class ChatRoom extends AppCompatActivity {
             chatModel.messages.postValue(messages = new ArrayList<>());
         }
 
-        
         binding.send.setOnClickListener(click -> {
 
             binding.textInput.setText("");
@@ -68,9 +66,6 @@ public class ChatRoom extends AppCompatActivity {
         });
 
 
-
-
-
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
@@ -90,11 +85,10 @@ public class ChatRoom extends AppCompatActivity {
                 ChatMessage message = messages.get(position);
                 holder.messageText.setText(message.getMessage());
                 holder.timeText.setText(message.getTimeSent());
-                ChatMessage obj = messages.get(position);
-                holder.messageText.setText((CharSequence) obj);
             }
             @Override
             public int getItemCount() {
+
                 return messages.size();
             }
 
