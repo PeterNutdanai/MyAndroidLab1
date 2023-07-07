@@ -87,8 +87,9 @@ public class ChatRoom extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
-                holder.messageText.setText("Howdy, partner.");
-                holder.timeText.setText("05:00 AM");
+                ChatMessage message = messages.get(position);
+                holder.messageText.setText(message.getMessage());
+                holder.timeText.setText(message.getTimeSent());
                 ChatMessage obj = messages.get(position);
                 holder.messageText.setText((CharSequence) obj);
             }

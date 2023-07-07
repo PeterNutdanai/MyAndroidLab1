@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SEND"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="743dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/textInput"
@@ -34,18 +34,18 @@
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/receive"
         app:layout_constraintStart_toEndOf="@+id/send"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="743dp" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/receive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RECEIVE"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="743dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
