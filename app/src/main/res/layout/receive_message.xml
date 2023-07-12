@@ -7,27 +7,28 @@
 
     <TextView
         android:id="@+id/receive"
-        android:layout_width="138dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Message goes here"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="213dp"
-        tools:layout_editor_absoluteY="4dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/recieveImage"
+        app:layout_constraintTop_toTopOf="@+id/recieveImage" />
 
     <TextView
         android:id="@+id/timeReceive"
-        android:layout_width="54dp"
-        android:layout_height="17dp"
-        android:text="Time goes here"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="157dp"
-        tools:layout_editor_absoluteY="4dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time goes here"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/receive"
+        app:layout_constraintTop_toBottomOf="@+id/receive" />
 
     <ImageView
         android:id="@+id/recieveImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:srcCompat="@drawable/receive_image"
-        tools:layout_editor_absoluteX="351dp"
-        tools:layout_editor_absoluteY="4dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
