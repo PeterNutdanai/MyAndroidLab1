@@ -143,7 +143,6 @@ public class ChatRoom extends AppCompatActivity {
                 ChatMessage message = messages.get(position);
                 Log.d("ChatRoom", "Position: " + position + ", Message: " + message.getMessage() + ", Time: " + message.getTimeSent() + ", Type: " + message.isSentButton());
                 holder.timeText.setText(message.getTimeSent());
-                holder.timeText.setText(message.getTimeSent());
                 holder.messageText.setText(message.getMessage());
             }
             @Override
