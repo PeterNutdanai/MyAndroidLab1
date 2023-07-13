@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -38,7 +39,9 @@ public class ChatRoom extends AppCompatActivity {
     protected ArrayList<ChatMessage> messages = new ArrayList<>();
 
     protected EditText theTextInput;
-
+    protected Button sendButton;
+    protected Button receiveButton;
+    protected RecyclerView recyclerView;
     ChatRoomViewModel chatModel ;
     RecyclerView.Adapter myAdapter;
     ChatMessageDAO mDAO;
@@ -54,6 +57,8 @@ public class ChatRoom extends AppCompatActivity {
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
 
+        sendButton = binding.send;
+        receiveButton = binding.receive;
         messages = chatModel.messages.getValue();
         if(messages == null)
         {
@@ -67,7 +72,7 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
 
-        binding.send.setOnClickListener(click -> {
+        sendButton.setOnClickListener(click -> {
             String message = theTextInput.getText().toString();
             binding.textInput.setText("");
 
@@ -90,7 +95,7 @@ public class ChatRoom extends AppCompatActivity {
             System.out.println("Clicked send button");
         });
 
-        binding.receive.setOnClickListener(click -> {
+        receiveButton.setOnClickListener(click -> {
             String message = theTextInput.getText().toString();
             System.out.println("Clicked receive button");
             boolean type = false;
@@ -112,9 +117,8 @@ public class ChatRoom extends AppCompatActivity {
         });
 
 
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
+        recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
-            @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
                 if(viewType == 0) {
                     SentMessageBinding binding =                           //how big is parent?
