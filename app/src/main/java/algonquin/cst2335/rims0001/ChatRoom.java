@@ -28,6 +28,7 @@ import algonquin.cst2335.rims0001.data.ChatMessage;
 import algonquin.cst2335.rims0001.data.ChatMessageDAO;
 import algonquin.cst2335.rims0001.data.ChatRoomViewModel;
 import algonquin.cst2335.rims0001.data.MessageDatabase;
+
 import algonquin.cst2335.rims0001.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.rims0001.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
@@ -51,7 +52,8 @@ public class ChatRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
-        binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
+        ActivityChatRoomBinding binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
@@ -59,6 +61,9 @@ public class ChatRoom extends AppCompatActivity {
 
         sendButton = binding.send;
         receiveButton = binding.receive;
+        theTextInput = binding.textInput;
+        recyclerView = binding.recycleView;
+
         messages = chatModel.messages.getValue();
         if(messages == null)
         {
@@ -68,13 +73,13 @@ public class ChatRoom extends AppCompatActivity {
             {
                 messages.addAll( mDAO.getAllMessages() ); //Once you get the data from database
 
-                runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter )); //You can then load the RecyclerView
+                runOnUiThread( () ->  recyclerView.setAdapter( myAdapter )); //You can then load the RecyclerView
             });
         }
 
         sendButton.setOnClickListener(click -> {
             String message = theTextInput.getText().toString();
-            binding.textInput.setText("");
+            theTextInput.setText("");
 
             boolean type = true;
             SimpleDateFormat sdf = new SimpleDateFormat("EE, dd-MMM-yyyy hh-mm-ss a");
@@ -91,7 +96,7 @@ public class ChatRoom extends AppCompatActivity {
             myAdapter.notifyItemInserted(messages.size());
 
             // clear input
-            binding.textInput.setText("");
+            theTextInput.setText("");
             System.out.println("Clicked send button");
         });
 
@@ -113,7 +118,7 @@ public class ChatRoom extends AppCompatActivity {
             myAdapter.notifyItemInserted(messages.size() );
 
             //clear input
-            binding.textInput.setText("");
+            theTextInput.setText("");
         });
 
 
@@ -156,7 +161,7 @@ public class ChatRoom extends AppCompatActivity {
             }
           });
 
-        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -169,7 +174,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onResume();
     }
 
-   
+
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;
         TextView timeText;

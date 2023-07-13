@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/receive"
+        android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,13 +16,13 @@
         app:layout_constraintTop_toTopOf="@+id/recieveImage" />
 
     <TextView
-        android:id="@+id/timeReceive"
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="time goes here"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/receive"
-        app:layout_constraintTop_toBottomOf="@+id/receive" />
+        app:layout_constraintStart_toStartOf="@+id/message"
+        app:layout_constraintTop_toBottomOf="@+id/message" />
 
     <ImageView
         android:id="@+id/recieveImage"
