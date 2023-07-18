@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import algonquin.cst2335.rims0001.data.ChatMessageDAO;
 import algonquin.cst2335.rims0001.data.ChatRoomViewModel;
 import algonquin.cst2335.rims0001.data.MessageDatabase;
 
+import algonquin.cst2335.rims0001.data.MessageDetailsFragment;
 import algonquin.cst2335.rims0001.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.rims0001.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
@@ -51,10 +54,16 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
-
-        });
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
+            MessageDetailsFragment detailsFragment = new MessageDetailsFragment( newMessageValue);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragmentLocation, detailsFragment)
+                    .commit();
+        });
+
         ActivityChatRoomBinding binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
