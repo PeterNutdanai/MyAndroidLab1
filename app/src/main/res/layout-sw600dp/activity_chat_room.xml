@@ -40,15 +40,15 @@ tools:context=".ChatRoom">
     app:layout_constraintStart_toEndOf="@+id/send"
     tools:ignore="MissingConstraints" />
 
-<Button
-    android:id="@+id/receive"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="RECEIVE"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:ignore="MissingConstraints" />
 
+    <Button
+        android:id="@+id/receive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RECEIVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fragmentLocation"
+        tools:ignore="MissingConstraints" />
 
     <FrameLayout
         android:id="@+id/fragmentLocation"
