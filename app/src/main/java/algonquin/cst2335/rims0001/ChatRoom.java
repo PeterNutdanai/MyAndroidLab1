@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -49,6 +50,7 @@ public class ChatRoom extends AppCompatActivity {
     ChatRoomViewModel chatModel ;
     RecyclerView.Adapter myAdapter;
     ChatMessageDAO mDAO;
+    protected Toolbar theToolbar;
 
 
     @Override
@@ -67,6 +69,8 @@ public class ChatRoom extends AppCompatActivity {
         ActivityChatRoomBinding binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+
+        theToolbar = findViewById(R.id.myToolbar);
 
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
