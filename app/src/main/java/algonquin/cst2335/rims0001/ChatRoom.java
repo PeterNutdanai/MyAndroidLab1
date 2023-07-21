@@ -2,6 +2,7 @@ package algonquin.cst2335.rims0001;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -71,6 +72,7 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         theToolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(theToolbar);
 
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
@@ -115,6 +117,14 @@ public class ChatRoom extends AppCompatActivity {
             theTextInput.setText("");
             System.out.println("Clicked send button");
         });
+
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu){
+            super.onCreateOptionsMenu(menu);
+
+            return true;
+        }
+
 
         receiveButton.setOnClickListener(click -> {
             String message = theTextInput.getText().toString();
@@ -179,6 +189,9 @@ public class ChatRoom extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    private void setSupportActionBar(Toolbar theToolbar) {
+    }
+
     @Override
     protected void onStart() {
 
@@ -190,6 +203,10 @@ public class ChatRoom extends AppCompatActivity {
 
         super.onResume();
     }
+
+    
+
+    
 
 
     class MyRowHolder extends RecyclerView.ViewHolder {
