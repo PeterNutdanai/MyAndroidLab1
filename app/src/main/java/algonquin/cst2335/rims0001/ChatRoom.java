@@ -119,12 +119,53 @@ public class ChatRoom extends AppCompatActivity {
         });
 
         @Override
-        public boolean onCreateOptionsMenu(Menu menu){
-            super.onCreateOptionsMenu(menu);
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+            switch( item.getItemId() )
+            {
+                case R.id.delete:
+
+                    //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
+                    //asking if the user wants to delete this message.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                    builder.setTitle("Question:")
+                            .setMessage("Do you want to delete this message: " + messageText.getText())
+                            .setPositiveButton("No", (dialog, cl) -> dialog.dismiss())  // Using the lambda to dismiss the dialog
+                            .setNegativeButton("Yes", (dialog, cl) -> {
+                                // Removing the message from the list and updating the adapter
+                                ChatMessage removedMessage = messages.get(position);
+                                messages.remove(position);
+                                myAdapter.notifyItemRemoved(position);
+
+                                // Deleting the message from the database in a background thread
+                                Executor thread = Executors.newSingleThreadExecutor();
+                                thread.execute(() -> mDAO.deleteMessage(removedMessage));
+
+                                // Showing a Snackbar with an undo option
+                                Snackbar.make(messageText, "You deleted message#" + position, Snackbar.LENGTH_LONG)
+                                        .setAction("Undo", click -> {
+                                            messages.add(position, removedMessage);
+                                            myAdapter.notifyItemInserted(position);
+
+                                            // Reinserting the message to the database in a background thread if undo is clicked
+                                            thread.execute(() -> mDAO.insertMessage(removedMessage));
+                                        })
+                                        .show();
+                            })
+                            .create().show();
+                    break;
+            }
 
             return true;
         }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu){
+            super.onCreateOptionsMenu(menu);
 
+            getMenuInflater().inflate(R.menu.my_menu, menu);
+
+            return true;
+        }
 
         receiveButton.setOnClickListener(click -> {
             String message = theTextInput.getText().toString();
@@ -204,10 +245,6 @@ public class ChatRoom extends AppCompatActivity {
         super.onResume();
     }
 
-    
-
-    
-
 
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;
@@ -223,6 +260,8 @@ public class ChatRoom extends AppCompatActivity {
                 ChatMessage selected = messages.get(position);
 
                 chatModel.selectedMessage.postValue(selected);
+
+
 //                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
 //                builder.setMessage("Do you want to delete this message: " + messageText.getText());
 //                builder.setTitle("Question:");
