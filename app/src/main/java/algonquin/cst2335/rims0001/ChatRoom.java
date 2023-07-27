@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import algonquin.cst2335.rims0001.R;
 
 import algonquin.cst2335.rims0001.data.ChatMessage;
 import algonquin.cst2335.rims0001.data.ChatMessageDAO;
@@ -190,34 +189,39 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()) {
+        switch( item.getItemId() ) {
             case R.id.delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
-                builder.setMessage("Do you want to delete this message: " + messageText);
+                builder.setMessage("Do you want to delete this message: " + messageText.getMessage());
                 builder.setTitle("Question:");
-
-                builder.setPositiveButton("Yes", (dialog, cl) -> {
+                builder.setPositiveButton("No", (dialog, cl) -> {});
+                builder.setNegativeButton("Yes", (dialog, cl) -> {
                     ChatMessage removedMessage = messages.get(position);
                     messages.remove(position);
                     Executor thread = Executors.newSingleThreadExecutor();
-
-                    thread.execute(() -> {
+                    thread.execute(() ->
+                    {
                         mDAO.deleteMessage(removedMessage);
-
-                        runOnUiThread(() -> {
-                            myAdapter.notifyItemRemoved(position);
-                        });
                     });
-                });
 
-                builder.setNegativeButton("No", (dialog, cl) -> {}).create().show();
-                break;
-        }
+                    myAdapter.notifyItemRemoved(position);
 
+                    Snackbar.make(messageText, "You deleted message#" + position, Snackbar.LENGTH_LONG)
+                            .setAction("Undo", click -> {
+                                messages.add(position, removedMessage);
+                                myAdapter.notifyItemInserted(position);
+                                thread.execute(() ->
+                                {
+                                    mDAO.insertMessage(removedMessage);
+                                });
+                            })
+                            .show();
+                }).create().show();
+
+                    break;
+                }
         return true;
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
