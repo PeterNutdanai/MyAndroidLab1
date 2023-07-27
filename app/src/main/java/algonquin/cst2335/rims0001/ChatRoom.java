@@ -190,7 +190,7 @@ public class ChatRoom extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch(item.getItemId()) {
-            case R.id.delete:
+            case 0:
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
                 builder.setMessage("Do you want to delete this message: " + messageText.getMessage());
                 builder.setTitle("Question:");
