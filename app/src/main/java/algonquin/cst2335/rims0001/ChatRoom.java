@@ -53,6 +53,8 @@ public class ChatRoom extends AppCompatActivity {
     RecyclerView.Adapter myAdapter;
     ChatMessageDAO mDAO;
     protected Toolbar theToolbar;
+    private ChatMessage selectedMessage = null;
+    private int selectedPosition = -1;
 
 
     @Override
@@ -186,40 +188,38 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch( item.getItemId() )
-        {
+        switch( item.getItemId() ) {
             case R.id.delete:
+                if (selectedMessage == null) {
+                    Snackbar.make(recyclerView, "Please select a message to delete", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                    builder.setTitle("Question:")
+                            .setMessage("Do you want to delete this message: " + selectedMessage.getMessage())
+                            .setPositiveButton("No", (dialog, cl) -> dialog.dismiss())
+                            .setNegativeButton("Yes", (dialog, cl) -> {
+                                if (selectedPosition != -1 && selectedMessage != null) {
+                                    messages.remove(selectedPosition);
+                                    myAdapter.notifyItemRemoved(selectedPosition);
 
-                //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
-                //asking if the user wants to delete this message.
-                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
-                builder.setTitle("Question:")
-                        .setMessage("Do you want to delete this message: " + messageText.getText())
-                        .setPositiveButton("No", (dialog, cl) -> dialog.dismiss())  // Using the lambda to dismiss the dialog
-                        .setNegativeButton("Yes", (dialog, cl) -> {
-                            // Removing the message from the list and updating the adapter
-                            ChatMessage removedMessage = messages.get(position);
-                            messages.remove(position);
-                            myAdapter.notifyItemRemoved(position);
+                                    Executor thread = Executors.newSingleThreadExecutor();
+                                    thread.execute(() -> mDAO.deleteMessage(selectedMessage));
 
-                            // Deleting the message from the database in a background thread
-                            Executor thread = Executors.newSingleThreadExecutor();
-                            thread.execute(() -> mDAO.deleteMessage(removedMessage));
+                                    Snackbar.make(recyclerView, "You deleted message#" + selectedPosition, Snackbar.LENGTH_LONG)
+                                            .setAction("Undo", click -> {
+                                                messages.add(selectedPosition, selectedMessage);
+                                                myAdapter.notifyItemInserted(selectedPosition);
+                                                thread.execute(() -> mDAO.insertMessage(selectedMessage));
+                                            })
+                                            .show();
+                                }
+                            })
+                            .create().show();
 
-                            // Showing a Snackbar with an undo option
-                            Snackbar.make(messageText, "You deleted message#" + position, Snackbar.LENGTH_LONG)
-                                    .setAction("Undo", click -> {
-                                        messages.add(position, removedMessage);
-                                        myAdapter.notifyItemInserted(position);
+                    break;
+                }
 
-                                        // Reinserting the message to the database in a background thread if undo is clicked
-                                        thread.execute(() -> mDAO.insertMessage(removedMessage));
-                                    })
-                                    .show();
-                        })
-                        .create().show();
-                break;
-        }
 
         return true;
     }
@@ -231,7 +231,9 @@ public class ChatRoom extends AppCompatActivity {
 
         return true;
     }
+
     private void setSupportActionBar(Toolbar theToolbar) {
+
     }
 
     @Override
