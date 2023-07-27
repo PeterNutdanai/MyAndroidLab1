@@ -189,7 +189,7 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch( item.getItemId() ) {
+        switch(item.getItemId()) {
             case R.id.delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
                 builder.setMessage("Do you want to delete this message: " + messageText.getMessage());
@@ -199,29 +199,16 @@ public class ChatRoom extends AppCompatActivity {
                     ChatMessage removedMessage = messages.get(position);
                     messages.remove(position);
                     Executor thread = Executors.newSingleThreadExecutor();
-                    thread.execute(() ->
-                    {
+                    thread.execute(() -> {
                         mDAO.deleteMessage(removedMessage);
                     });
-
                     myAdapter.notifyItemRemoved(position);
-
-                    Snackbar.make(messageText, "You deleted message#" + position, Snackbar.LENGTH_LONG)
-                            .setAction("Undo", click -> {
-                                messages.add(position, removedMessage);
-                                myAdapter.notifyItemInserted(position);
-                                thread.execute(() ->
-                                {
-                                    mDAO.insertMessage(removedMessage);
-                                });
-                            })
-                            .show();
                 }).create().show();
-
-                    break;
-                }
+                break;
+        }
         return true;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
