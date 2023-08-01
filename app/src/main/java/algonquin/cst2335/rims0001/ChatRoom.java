@@ -37,6 +37,7 @@ import algonquin.cst2335.rims0001.data.MessageDatabase;
 
 import algonquin.cst2335.rims0001.data.MessageDetailsFragment;
 import algonquin.cst2335.rims0001.databinding.ActivityChatRoomBinding;
+import algonquin.cst2335.rims0001.databinding.ActivityMainBinding;
 import algonquin.cst2335.rims0001.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
 
@@ -44,6 +45,7 @@ import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
 public class ChatRoom extends AppCompatActivity {
 
     ActivityChatRoomBinding binding;
+    ActivityMainBinding binding1;
     protected ArrayList<ChatMessage> messages = new ArrayList<>();
 
     protected EditText theTextInput;
@@ -55,7 +57,7 @@ public class ChatRoom extends AppCompatActivity {
     ChatMessageDAO mDAO;
     protected Toolbar theToolbar;
     private ChatMessage messageText;
-    private int position = -1;
+
 
 
     @Override
@@ -71,12 +73,13 @@ public class ChatRoom extends AppCompatActivity {
                     .commit();
         });
 
-        ActivityChatRoomBinding binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
-
+        binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        theToolbar = findViewById(R.id.myToolbar);
-        setSupportActionBar(theToolbar);
+        binding1 = ActivityMainBinding.inflate(getLayoutInflater());
+
+//        theToolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(binding1.myToolbar);
 
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
@@ -186,28 +189,52 @@ public class ChatRoom extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+//    private void setSupportActionBar(Toolbar theToolbar) {
+//        onCreateOptionsMenu();
+//    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()) {
-            case 0:
-                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
-                builder.setMessage("Do you want to delete this message: " + messageText.getMessage());
-                builder.setTitle("Question:");
-                builder.setPositiveButton("No", (dialog, cl) -> {});
-                builder.setNegativeButton("Yes", (dialog, cl) -> {
-                    ChatMessage removedMessage = messages.get(position);
-                    messages.remove(position);
-                    Executor thread = Executors.newSingleThreadExecutor();
-                    thread.execute(() -> {
-                        mDAO.deleteMessage(removedMessage);
-                    });
-                    myAdapter.notifyItemRemoved(position);
-                }).create().show();
-                break;
-        }
+        if( item.getItemId() == R.id.delete) {
+
+
+            TextView messageText = findViewById(R.id.messageText);
+            int position = -1;
+
+            for (int i = 0; i < messages.toArray().length; i++) {
+                if (messages.get(i).id == R.id.delete) {
+                    position = i;
+
+                }
+            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+            int finalPosition = position;
+            builder.setMessage("Do you want to delete this message: " + messageText.getText())
+                    .setTitle("Question:")
+                    .setNegativeButton("No", (dialog, cl) -> {
+                    })
+                    .setPositiveButton("Yes", (dialog, cl) -> {
+                        ChatMessage removedMessage = messages.get(finalPosition);
+                        Executor thread = Executors.newSingleThreadExecutor();
+                        thread.execute(() -> {
+                            mDAO.deleteMessage(removedMessage);
+                            messages.remove(finalPosition);
+                            myAdapter.notifyItemRemoved(finalPosition);
+                            this.onBackPressed();
+                            Snackbar.make(messageText, "You deleted message#" + finalPosition, Snackbar.LENGTH_LONG)
+                                    .setAction("Undo", undoClk -> {
+                                        thread.execute(() -> {
+                                            messages.add(finalPosition, removedMessage);
+                                            mDAO.insertMessage(removedMessage);
+                                        });
+                                        myAdapter.notifyItemInserted(finalPosition);
+                                    }).show();
+                        });
+                    }).create().show();
+            }
         return true;
-    }
+        }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -218,9 +245,7 @@ public class ChatRoom extends AppCompatActivity {
         return true;
     }
 
-    private void setSupportActionBar(Toolbar theToolbar) {
 
-    }
 
     @Override
     protected void onStart() {
@@ -280,4 +305,4 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
     }
-}
+        }
