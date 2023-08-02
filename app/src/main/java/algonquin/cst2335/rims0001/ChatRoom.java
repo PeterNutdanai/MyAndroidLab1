@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,7 +36,6 @@ import algonquin.cst2335.rims0001.data.MessageDatabase;
 
 import algonquin.cst2335.rims0001.data.MessageDetailsFragment;
 import algonquin.cst2335.rims0001.databinding.ActivityChatRoomBinding;
-import algonquin.cst2335.rims0001.databinding.ActivityMainBinding;
 import algonquin.cst2335.rims0001.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
 
@@ -136,9 +134,6 @@ public class ChatRoom extends AppCompatActivity {
         });
 
 
-        /**
-         * A RecyclerView.Adapter object needs 3 functions to tell the view how to draw items in the list.
-         */
         recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -159,12 +154,6 @@ public class ChatRoom extends AppCompatActivity {
             }
 
 
-            /**
-             * This initializes a ViewHolder to go at the row specified by the position parameter
-             * @param holder The ViewHolder which should be updated to represent the contents of the
-             *        item at the given position in the data set.
-             * @param position The position of the item within the adapter's data set.
-             */
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 //update the widgets:
@@ -182,20 +171,11 @@ public class ChatRoom extends AppCompatActivity {
                 });
             }
 
-            /**
-             * This function just returns an int specifying how many items to draw.
-             * @return
-             */
             @Override
             public int getItemCount() {
                 return messages.size();
             }
 
-            /**
-             * load different layouts for different rows, this function lets you return an int to indicate which layout to load. For now, we are just loading one layout, so you can just return 0 for this function:
-             * @param position position to query
-             * @return an int which is the parameter which gets passed in to the onCreateViewHolder(ViewGroup parent, int viewType) function
-             */
             @Override
             public int getItemViewType(int position){
                 if(messages.get(position).isSentButton())
@@ -209,11 +189,6 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
 
-        /**
-         * LayoutManager
-         * The RecyclerView supports 1 or more columns for showing data, and you can either scroll in a Vertical or Horizontal direction through the items.
-         * To specify a single column scrolling in a Vertical direction, you call:
-         */
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chatModel.selectedMessage.observe(this, (newMessageValue) -> {
