@@ -1,7 +1,10 @@
 package algonquin.cst2335.rims0001;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,8 +24,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -39,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
      * previously being shut down then this Bundle contains the data it most
      * recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
-
 
     protected RequestQueue queue = null;
     protected String cityName;
@@ -75,31 +79,55 @@ public class MainActivity extends AppCompatActivity {
                         double max = mainObject.getDouble("temp_max");
                         int humidity = mainObject.getInt("humidity");
 
-                        String pictureURL = "https://openweathermap.org/img/w/" + iconName + ".png";
+                        runOnUiThread( (  )  -> {
 
-                        ImageRequest imgReq = new ImageRequest(pictureURL, new Response.Listener<Bitmap>() {
-                            @Override
-                            public void onResponse(Bitmap bitmap) {
+                            binding.temp.setText("The current temperature is " + current);
+                            binding.temp.setVisibility(View.VISIBLE);
 
-                                int i = 0;
+                            binding.min.setText("The min temperature is " + min);
+                            binding.min.setVisibility(View.VISIBLE);
 
-                            }
-                        }, 1024, 1024, ImageView.ScaleType.CENTER, null,
-                                (error ) -> {
-                            int i = 0;
+                            binding.max.setText("The max temperature is " + max);
+                            binding.max.setVisibility(View.VISIBLE);
+
+                            binding.humidity.setText("The humidity is " + humidity);
+                            binding.humidity.setVisibility(View.VISIBLE);
+
+                            binding.description.setText("Description: " + description+"%");
+                            binding.description.setVisibility(View.VISIBLE);
+
                         });
-                        FileOutputStream fOut = null;
-                        try {
-                            fOut = openFileOutput( iconName + ".png", Context.MODE_PRIVATE);
+                        String pathname = getFilesDir() + "/" + iconName + ".png";
+                        File file = new File(pathname);
 
-                            image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                            fOut.flush();
-                            fOut.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                        if (file.exists()) {
+                            Bitmap image = BitmapFactory.decodeFile(pathname);
+                            binding.weatherIcon.setImageBitmap(image);
+                            binding.weatherIcon.setVisibility(View.VISIBLE);
 
+                        } else {
+                            String pictureURL = "https://openweathermap.org/img/w/" + iconName + ".png";
+
+                            ImageRequest imgReq = new ImageRequest(pictureURL, new Response.Listener<Bitmap>() {
+                                @Override
+                                public void onResponse(Bitmap bitmap) {
+
+                                    try (FileOutputStream fOut = openFileOutput(iconName + ".png", Context.MODE_PRIVATE)) {
+                                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                        binding.weatherIcon.setImageBitmap(bitmap);
+                                        binding.weatherIcon.setVisibility(View.VISIBLE);
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+
+                            });
+
+                            queue.add(imgReq);
                         }
-                        queue.add(imgReq);
                     }catch(JSONException e){
                         e.printStackTrace();
                     }
@@ -111,80 +139,4 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
-
-
-//    /**
-//     * This is a function for checkPasswordComplexity
-//     *
-//     * @param pw The String object that we are checking
-//     * @return Return true if the password is right format
-//     */
-//    boolean checkPasswordComplexity(String pw) {
-//        boolean foundUpperCase, foundLowerCase, foundNumber, foundSpecial;
-//        foundUpperCase = foundLowerCase = foundNumber = foundSpecial = false;
-//
-//        for (char c : pw.toCharArray()) {
-//            if (Character.isUpperCase(c)) {
-//                foundUpperCase = true;
-//            } else if (Character.isLowerCase(c)) {
-//                foundLowerCase = true;
-//            } else if (Character.isDigit(c)) {
-//                foundNumber = true;
-//            } else {
-//                foundSpecial = true;
-//            }
-//        }
-//
-//        // Check if all requirements are met
-//       // return foundUpperCase && foundLowerCase && foundNumber && foundSpecial;
-//
-//        if (!foundUpperCase) {
-//
-//            Toast.makeText(MainActivity.this, "Password is missing an uppercase letter.", Toast.LENGTH_SHORT).show();// Say that they are missing an upper case letter;
-//
-//            return false;
-//
-//        } else if (!foundLowerCase) {
-//            Toast.makeText(MainActivity.this, "Password is missing a lowercase letter.", Toast.LENGTH_SHORT).show(); // Say that they are missing a lower case letter;
-//
-//            return false;
-//
-//        } else if (!foundNumber) {
-//            Toast.makeText(MainActivity.this, "Password is missing a number.", Toast.LENGTH_SHORT).show(); // Say that they are missing a lower case letter;
-//            return false;
-//
-//        } else if (!foundSpecial) {
-//            Toast.makeText(MainActivity.this, "Password is missing a special case.", Toast.LENGTH_SHORT).show(); // Say that they are missing a lower case letter;
-//            return false;
-//
-//        } else {
-//
-//            return true; //only get here if they're all true
-//
-//        }
-//    }
-//    /**
-//     *Checks if a given character is a special character.
-//     * @param c The character to check.
-//     * @return true if the character is a special character, false otherwise.
-//     */
-//    boolean isSpecialCharacter ( char c)
-//
-//    {
-//        switch (c) {
-//            case '#':
-//            case '?':
-//            case '*':
-//            case '$':
-//            case '%':
-//            case '^':
-//            case '@':
-//            case '!':
-//            case '&':
-//                return true;
-//            default:
-//                return false;
-//        }
-//    }
 }
