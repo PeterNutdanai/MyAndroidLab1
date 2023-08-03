@@ -77,9 +77,9 @@ public class ChatRoom extends AppCompatActivity {
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() ->
             {
-                messages.addAll( mDAO.getAllMessages() ); //Once you get the data from database
+                messages.addAll( mDAO.getAllMessages() );
 
-                runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter )); //You can then load the RecyclerView
+                runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter ));
             });
         }
 
@@ -91,7 +91,7 @@ public class ChatRoom extends AppCompatActivity {
             String currentDateAndTime = sdf.format(new Date());
 
             ChatMessage cm = new ChatMessage(0,input, currentDateAndTime, type);
-            //insert into ArrayList
+
             messages.add(cm);
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() ->
@@ -99,11 +99,8 @@ public class ChatRoom extends AppCompatActivity {
                 mDAO.insertMessage(cm);
             });
 
+            myAdapter.notifyItemInserted(messages.size());
 
-            myAdapter.notifyItemInserted(messages.size()); //updates the rows
-//            myAdapter.notifyDataSetChanged(); //updates the rows
-
-            //clear input
             theTextInput.setText("");
             System.out.println("clicked send button");
         });
@@ -113,10 +110,10 @@ public class ChatRoom extends AppCompatActivity {
             System.out.println("clicked receive button");
             boolean type = false;
             SimpleDateFormat sdf = new SimpleDateFormat("EE, dd-MMM-yyyy hh:mm a");
-            String currentDateandTime = sdf.format(new Date());
+            String currentDateAndTime = sdf.format(new Date());
 
-            ChatMessage cm = new ChatMessage(0,input, currentDateandTime, type);
-            //insert into ArrayList
+            ChatMessage cm = new ChatMessage(0,input, currentDateAndTime, type);
+
             messages.add(cm);
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() ->
@@ -124,11 +121,7 @@ public class ChatRoom extends AppCompatActivity {
                 mDAO.insertMessage(cm);
             });
 
-            myAdapter.notifyItemInserted(messages.size()); //updates the rows
-//            myAdapter.notifyDataSetChanged(); //updates the rows
-
-
-            //clear input
+            myAdapter.notifyItemInserted(messages.size());
             theTextInput.setText("");
 
         });
@@ -137,9 +130,7 @@ public class ChatRoom extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                //this inflates the row layout
 
-                //int viewType is what layout to load
                 if(viewType == 0) {
                     SentMessageBinding binding =                           //how big is parent?
                             SentMessageBinding.inflate(getLayoutInflater(), parent, false);
@@ -161,7 +152,7 @@ public class ChatRoom extends AppCompatActivity {
                 Log.d("ChatRoom", "Position: " + position + ", Message: " + atThisRow.getMessage() + ", Time: " + atThisRow.getTimeSent() + ", Type: " + atThisRow.isSentButton());
                 holder.timeText.setText(atThisRow.getTimeSent());
                 holder.timeText.setText(atThisRow.getTimeSent());
-                holder.messageText.setText(atThisRow.getMessage());//puts the string in position at theWord TextView
+                holder.messageText.setText(atThisRow.getMessage());
 
                 holder.itemView.setOnClickListener(clk -> {
 
@@ -192,7 +183,7 @@ public class ChatRoom extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chatModel.selectedMessage.observe(this, (newMessageValue) -> {
-            MessageDetailsFragment chatFragment = new MessageDetailsFragment( newMessageValue );  //newValue is the newly set ChatMessage
+            MessageDetailsFragment chatFragment = new MessageDetailsFragment( newMessageValue );
             FragmentManager fMgr = getSupportFragmentManager();
             FragmentTransaction tx = fMgr.beginTransaction();
             tx.add(R.id.fragmentLocation, chatFragment);
@@ -245,7 +236,7 @@ public class ChatRoom extends AppCompatActivity {
     }
 
 
-    //        The whole point of the MyRowHolder class is to maintain variables for what you want to set on each row in your list.
+
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;
         TextView timeText;
