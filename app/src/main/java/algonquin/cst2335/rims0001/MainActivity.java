@@ -48,12 +48,16 @@ public class MainActivity extends AppCompatActivity {
     protected RequestQueue queue = null;
     protected String cityName;
 
+    ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate( getLayoutInflater() );
+
+        setContentView(binding.getRoot());
         queue = Volley.newRequestQueue(this);
-        ActivityMainBinding binding = ActivityMainBinding.inflate( getLayoutInflater() );
 
         binding.getForecast.setOnClickListener(click -> {
             cityName = binding.editText.getText().toString();
