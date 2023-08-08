@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             binding.humidity.setText("The humidity is " + humidity);
                             binding.humidity.setVisibility(View.VISIBLE);
 
-                            binding.description.setText("Description: " + description+"%");
+                            binding.description.setText("Description: " + description);
                             binding.description.setVisibility(View.VISIBLE);
 
                         });
