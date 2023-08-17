@@ -36,7 +36,6 @@ import algonquin.cst2335.rims0001.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
-    ActivityChatRoomBinding binding;
     protected ArrayList<ChatMessage> messages = new ArrayList<>();
 
     protected EditText theTextInput;
